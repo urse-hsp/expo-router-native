@@ -41,10 +41,10 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         {/* screenOptions标题栏 */}
         <Stack screenOptions={{
-          // headerStyle: {
-          //   backgroundColor: '#f4511e',
-          // },
-          // headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
           },
@@ -54,7 +54,7 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
-        <StatusBar style="auto" />
+        <StatusBar style={colorScheme === 'dark' ? 'light' : 'auto'} />
       </ThemeProvider>
     </SafeAreaProvider>
   );
