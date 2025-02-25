@@ -7,11 +7,20 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import PagesScrollView from '@/components/PagesScrollView';
+import { Button } from '@ant-design/react-native';
+import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 export default function TabTwoScreen() {
+  const router = useRouter();
+
+
   return (
     <PagesScrollView
     >
+      <Button onPress={() => router.push('/login')}>go login</Button>
+      <Link href="/login">login</Link>
+
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Explore</ThemedText>
       </ThemedView>

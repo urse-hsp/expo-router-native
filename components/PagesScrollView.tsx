@@ -3,35 +3,47 @@ import type { PropsWithChildren } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedView } from '@/components/ThemedView';
-import { Flex, View } from '@ant-design/react-native';
+import { ScreenProps, Stack } from 'expo-router';
 
 
+// 用于使用了顶部栏的页面 headerShown: true
+export const ScrollViews = ({ children }: any) => {
+  return <ThemedView style={styles.container}>
+    <ScrollView
+    >
+      <ThemedView style={styles.content}>{children}</ThemedView>
+    </ScrollView>
+  </ThemedView>
+}
+
+
+// SafeAreaView 使用需要搭配没有顶部导航栏的页面 headerShown: false
 type Props = PropsWithChildren<{
-  // headerImage?: ReactElement;
-  // headerBackgroundColor: { dark: string; light: string };
+  options?: ScreenProps['options']
 }>;
 
 export default function PagesScrollView({
-  children,
+  children, options = undefined
 }: Props) {
-
+  console.log(options, 'options');
+  const newOp: any = options
   return (
-    <SafeAreaView
-      style={{ flex: 1 }}
-    >
-      <ThemedView style={styles.container}>
-        <ScrollView
+    <>
+      {options && <Stack.Screen options={options} />}
+      {newOp?.headerShown === true ? <ScrollViews>{children}</ScrollViews> :
+        <SafeAreaView
+          style={{ flex: 1 }}
         >
-          <ThemedView style={styles.content}>{children}</ThemedView>
-        </ScrollView>
-      </ThemedView>
-    </SafeAreaView>
+          <ScrollViews>{children}</ScrollViews>
+        </SafeAreaView>}
+    </>
   );
 }
 
 const styles = StyleSheet.create({
 
   container: {
+    // 设置页面高度
     flex: 1,
   },
   content: {
