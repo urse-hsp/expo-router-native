@@ -9,6 +9,7 @@ import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context'; // 双端安全区
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Redirect } from 'expo-router';
+import AppProvider from '@/models/app';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -37,25 +38,27 @@ export default function RootLayout() {
   // }
 
   return (
-    <SafeAreaProvider initialMetrics={null}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        {/* screenOptions标题栏 */}
-        <Stack screenOptions={{
-          headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          headerShown: false // 隐藏底部导航栏，PagesScrollView使用SafeAreaView统一处理安全区
-        }}
-        >
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'auto'} />
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <AppProvider>
+      <SafeAreaProvider initialMetrics={null}>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          {/* screenOptions标题栏 */}
+          <Stack screenOptions={{
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerShown: false // 隐藏底部导航栏，PagesScrollView使用SafeAreaView统一处理安全区
+          }}
+          >
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          <StatusBar style={colorScheme === 'dark' ? 'light' : 'auto'} />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </AppProvider>
   );
 }

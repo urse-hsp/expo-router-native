@@ -25,7 +25,6 @@ type Props = PropsWithChildren<{
 export default function PagesScrollView({
   children, options = undefined
 }: Props) {
-  console.log(options, 'options');
   const newOp: any = options
   return (
     <>
