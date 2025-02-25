@@ -13,7 +13,7 @@ export default function TabTwoScreen() {
     <PagesScrollView
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore1</ThemedText>
+        <ThemedText type="title">Explore</ThemedText>
       </ThemedView>
       <ThemedText>This app includes example code to help you get started.</ThemedText>
       <Collapsible title="File-based routing">
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     bottom: -90,
     left: -35,
     position: 'absolute',
+    padding: 0
   },
   titleContainer: {
     flexDirection: 'row',
