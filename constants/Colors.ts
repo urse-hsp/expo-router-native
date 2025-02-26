@@ -24,3 +24,14 @@ export const Colors = {
     tabIconSelected: tintColorDark,
   },
 };
+
+export const antd_dark = {
+  "fill_body": "#262629",
+  "fill_base": "#1a1a1a",
+  "fill_tap": "#2b2b2b",
+  "fill_grey": "#0a0a0a",
+  "color_text_base": "#e6e6e6",
+  "color_text_placeholder": "#4d4d4d",
+  "border_color_base": "#2b2b2b",
+  "border_color_thin": "#2b2b2b",
+}

@@ -10,9 +10,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'; // 双端安�
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Redirect } from 'expo-router';
 import AppProvider from '@/models/app';
-
+import {
+  Provider
+} from '@ant-design/react-native'
 // Prevent the splash screen from auto-hiding before asset loading is complete.
+import { antd_dark } from '@/constants/Colors'
 SplashScreen.preventAutoHideAsync();
+
+
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -37,26 +42,30 @@ export default function RootLayout() {
   //   return <Redirect href="/login" />;
   // }
 
+
+
   return (
     <AppProvider>
       <SafeAreaProvider initialMetrics={null}>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          {/* screenOptions标题栏 */}
-          <Stack screenOptions={{
-            headerStyle: {
-              backgroundColor: '#f4511e',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            headerShown: false // 隐藏底部导航栏，PagesScrollView使用SafeAreaView统一处理安全区
-          }}
-          >
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style={colorScheme === 'dark' ? 'light' : 'auto'} />
+          <Provider theme={colorScheme === 'dark' ? antd_dark : {}} >
+            {/* screenOptions标题栏 */}
+            <Stack screenOptions={{
+              headerStyle: {
+                backgroundColor: '#f4511e',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+              headerShown: false // 隐藏底部导航栏，PagesScrollView使用SafeAreaView统一处理安全区
+            }}
+            >
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style={colorScheme === 'dark' ? 'light' : 'auto'} />
+          </Provider>
         </ThemeProvider>
       </SafeAreaProvider>
     </AppProvider>

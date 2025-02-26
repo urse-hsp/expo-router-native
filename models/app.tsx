@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { View, Text, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useStorage from '@/hooks/useStorage'
-
+import { dataType } from '@/utils/apiList'
 
 // 创建 Context
 export const AppContext = createContext();
@@ -10,9 +10,9 @@ export const AppContext = createContext();
 // AppProvider 组件，用来包裹需要使用状态的组件
 const AppProvider = ({ children }: any) => {
   const { saveData, loadData } = useStorage()
-  const [appInfo, setAppInfo] = useState('');
+  const [appInfo, setAppInfo] = useState<dataType<any>>({});
 
-  const toggleApp = (data: any) => {
+  const toggleApp = (data: dataType<any>) => {
     saveData(data, () => {
       setAppInfo(data);  // 如果有数据，则更新状态
     })
