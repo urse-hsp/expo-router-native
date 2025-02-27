@@ -7,16 +7,27 @@ import {
   Form,
   Input,
   Button,
-  Radio,
-  Flex as Row,
 } from '@ant-design/react-native'
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { APP_NAME } from '@/constants/config'
+import { useRouter } from 'expo-router';
+import useCountdown from '@/hooks/useCountdown'
 
 
-export default function LoginScreen() {
+
+const typeDic = {
+  login: '登录',
+  create: '注册'
+}
+export default function LoginScreen(props: any) {
+  const type: 'login' | 'create' = props.type || 'login'
   const { appInfo, toggleApp }: any = useContext(AppContext);
   const { data, loading } = useTopicDetails()
   const { loading: loading_1, trigger } = useTopicDetailsTrigger()
   const [form] = Form.useForm()
+  const router = useRouter()
+  const { time, start } = useCountdown(60);
 
   const onSubmit = () => {
     form.submit()
@@ -30,74 +41,136 @@ export default function LoginScreen() {
     console.log('Failed:', errorInfo)
   }
 
-  const pickerRef = React.useRef(null)
+  const Tiele = typeDic[type]
 
-  return <PagesScrollView options={{
-    title: '登录',
-    headerShown: true
-  }}>
+  const props_ = {
+    ...props,
+    options: {
+      title: Tiele,
+      headerShown: true
+    },
+  }
+
+  return <PagesScrollView options={props_.options}>
+    <ThemedText style={styles.title}>欢迎你, {Tiele}{APP_NAME}</ThemedText>
+
     <Form
-      // name="basic"
-      // form={form}
-      // onFinish={onFinish}
-      // onFinishFailed={onFinishFailed}
-      // initialValues={{
-      //   doorNumber: '',
-      //   username: '',
-      //   phoneNumber: '',
-      //   isDefault: false,
-      // }}
-      renderHeader="水平布局菜单">
+      name="basic"
+      form={form}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      initialValues={{
+        code: '',
+        email: '',
+      }}
+      layout="vertical"
+      style={styles.form}
+      styles={{
+        Body: {
+          borderBottomWidth: 0, // 去掉下划线
+          borderWidth: 0, // 确保没有边框
+        },
+        BodyBottomLine: {
+          display: 'none',
+        }
+      }}
+    >
       <Form.Item
-        label="收货人"
-        name="username"
-        extra={
-          <Form.Item name="gender" noStyle>
-            <Radio.Group>
-              <Row>
-                <Radio value={1}>先生</Radio>
-                <Radio value={2}>女士</Radio>
-              </Row>
-            </Radio.Group>
-          </Form.Item>
-        }>
-        <Input placeholder="请输入收货人姓名" />
+        label="邮箱"
+        name="email"
+        validateDebounce={700}
+        rules={[{
+          pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
+          message: '邮箱格式不正确',
+        },
+        {
+          max: 50,
+          message: '邮箱不得超过50字符',
+        },
+        { required: true }]}
+        required={false}
+        style={styles.formItem}
+        styles={FormItemStyles}
+      >
+        <Input placeholder="请输入邮箱" style={styles.formItemInput} />
       </Form.Item>
 
       <Form.Item
-        label="手机号"
-        name="phoneNumber"
-        hasFeedback
-        validateDebounce={500}
-        rules={[{ pattern: /^1[3456789]\d{9}$/ }, { required: true }]}>
-        <Input type="number" placeholder="请输入手机号" />
+        label={<ThemedView style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <ThemedText>验证码</ThemedText>
+          <>
+            {time >= 60 ? <ThemedText onPress={() => { start(); }}>获取验证码</ThemedText> : <ThemedText>
+              {time}秒
+            </ThemedText>}
+          </>
+        </ThemedView>}
+        name="code"
+        rules={[{ required: true }]}
+        required={false}
+        style={styles.formItem}
+        styles={FormItemStyles}
+        labelStyle={{
+          width: '100%'
+        }}
+      >
+        <Input placeholder="请输入验证码" style={styles.formItemInput} />
+      </Form.Item>
+
+      <Form.Item style={styles.formItem} styles={FormItemStyles}>
+        {type === 'login' && <ThemedView style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <ThemedText onPress={() => {
+            router.push('/login/create')
+          }}>去注册</ThemedText>
+        </ThemedView>}
+
+        <Button type="primary" onPress={onSubmit} style={styles.btn}>
+          {Tiele}
+        </Button>
       </Form.Item>
     </Form>
-
-
-    <Button onPress={() => {
-      toggleApp(appInfo+1)
-    }}>models数据管理测试:{appInfo}</Button>
-    <Button onPress={() => {
-      try {
-        trigger?.()
-
-      } catch (error) {
-
-      }
-    }}>接口测试</Button>
   </PagesScrollView>
 }
 
+const FormItemStyles = {
+  formItemControl: {
+    paddingLeft: 13
+  },
+  formItemLabel: {
+    paddingLeft: 13
+  }
+}
+
 const styles = StyleSheet.create({
-  // headerImage: {
-  //   color: '#808080',
-  //   bottom: -90,
-  //   left: -35,
-  //   position: 'absolute',
-  // },
-  // titleContainer: {
-  //   flexDirection: 'row',
-  //   gap: 8,
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    paddingTop: 20,
+    paddingBottom: 20
+  },
+  form: {
+    backgroundColor: 'transparent'
+  },
+
+
+  formItem: {
+    paddingLeft: 0,
+    backgroundColor: 'transparent',
+  },
+  formItemInput: {
+    marginTop: 20,
+    backgroundColor: '#252827',
+    height: 50,
+    padding: 10,
+    borderRadius: 10,
+  },
+  btn: {
+    borderRadius: 30,
+    backgroundColor: 'background: linear-gradient(52deg, rgb(145, 144, 243) 0%, rgb(250, 127, 178) 100%);',
+    marginTop: 20
+  }
+
+  // input: {
+  //   borderBottomWidth: 0, // 去掉下划线
+  //   borderWidth: 0, // 确保没有边框
   // },
 });

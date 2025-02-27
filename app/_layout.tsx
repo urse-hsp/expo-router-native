@@ -14,7 +14,8 @@ import {
   Provider
 } from '@ant-design/react-native'
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-import { antd_dark } from '@/constants/Colors'
+import { antd_dark, themeColor } from '@/constants/Colors'
+
 SplashScreen.preventAutoHideAsync();
 
 
@@ -52,7 +53,7 @@ export default function RootLayout() {
             {/* screenOptions标题栏 */}
             <Stack screenOptions={{
               headerStyle: {
-                backgroundColor: '#f4511e',
+                backgroundColor: themeColor,
               },
               headerTintColor: '#fff',
               headerTitleStyle: {
