@@ -10,7 +10,7 @@ export const AppContext = createContext();
 // AppProvider 组件，用来包裹需要使用状态的组件
 const AppProvider = ({ children }: any) => {
   const { saveData, loadData } = useStorage()
-  const [appInfo, setAppInfo] = useState<dataType<any>>({});
+  const [appInfo, setAppInfo] = useState<dataType<any> | null>(null);
 
   const toggleApp = (data: dataType<any>) => {
     saveData(data, () => {

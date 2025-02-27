@@ -74,9 +74,10 @@ export default function LoginScreen() {
       </Form.Item>
     </Form>
 
+
     <Button onPress={() => {
-      toggleApp(1)
-    }}>models数据管理测试</Button>
+      toggleApp(appInfo+1)
+    }}>models数据管理测试:{appInfo}</Button>
     <Button onPress={() => {
       try {
         trigger?.()
