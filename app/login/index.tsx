@@ -27,7 +27,7 @@ export default function LoginScreen(props: any) {
   const { loading: loading_1, trigger } = useTopicDetailsTrigger()
   const [form] = Form.useForm()
   const router = useRouter()
-  const { time, start } = useCountdown(60);
+  const { time, start, isActive } = useCountdown(10);
 
   const onSubmit = () => {
     form.submit()
@@ -99,7 +99,7 @@ export default function LoginScreen(props: any) {
         label={<ThemedView style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <ThemedText>验证码</ThemedText>
           <>
-            {time >= 60 ? <ThemedText onPress={() => { start(); }}>获取验证码</ThemedText> : <ThemedText>
+            {isActive === false ? <ThemedText onPress={() => { start(); }}>获取验证码</ThemedText> : <ThemedText>
               {time}秒
             </ThemedText>}
           </>

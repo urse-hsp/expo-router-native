@@ -27,7 +27,7 @@ const useCountdown = (initialTime = 60) => {
   const stop = () => setIsActive(false);
   const reset = () => setTime(initialTime);
 
-  return { time, start, stop, reset };
+  return { time, start, stop, reset, isActive };
 };
 
 export default useCountdown;
