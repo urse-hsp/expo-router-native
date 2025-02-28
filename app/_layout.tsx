@@ -41,15 +41,15 @@ export default function RootLayout() {
   //   return <Redirect href="/login" />;
   // }
 
-  console.log(colorScheme, 'colorScheme');
-
+  console.log(colorScheme,'colorScheme');
+  
   const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme
   const MyTheme = {
-    ...DarkTheme,
+    ...theme,
     colors: {
-      ...DarkTheme.colors,
-      // background: 'rgb(140, 201, 125)',
-      // primary: 'rgb(255, 45, 85)',
+      ...theme.colors,
+      background: 'rgb(140, 201, 125)',
+      primary: themeColor,
     },
     dark: true,
   };
@@ -57,7 +57,7 @@ export default function RootLayout() {
   return (
     <AppProvider>
       <SafeAreaProvider initialMetrics={null}>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <ThemeProvider value={MyTheme}>
           <AtdProvider theme={antd_theme[colorScheme ?? themeType]} >
             {/* screenOptions标题栏 */}
             <Stack screenOptions={{
