@@ -8,16 +8,15 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context'; // 双端安全区
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Redirect } from 'expo-router';
 import AppProvider from '@/models/app';
 import {
-  Provider
+  Provider as AtdProvider
 } from '@ant-design/react-native'
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-import { antd_dark, themeColor } from '@/constants/Colors'
+import { antd_theme, themeColor, Colors } from '@/constants/Colors'
+import { themeType } from '@/constants/config'
 
 SplashScreen.preventAutoHideAsync();
-
 
 
 export default function RootLayout() {
@@ -36,20 +35,30 @@ export default function RootLayout() {
     return null;
   }
 
-
   // 登录权限
   // const { user } = useAuth();
   // if (!user) {
   //   return <Redirect href="/login" />;
   // }
 
+  console.log(colorScheme, 'colorScheme');
 
+  const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme
+  const MyTheme = {
+    ...DarkTheme,
+    colors: {
+      ...DarkTheme.colors,
+      // background: 'rgb(140, 201, 125)',
+      // primary: 'rgb(255, 45, 85)',
+    },
+    dark: true,
+  };
 
   return (
     <AppProvider>
       <SafeAreaProvider initialMetrics={null}>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Provider theme={colorScheme === 'dark' ? antd_dark : {}} >
+          <AtdProvider theme={antd_theme[colorScheme ?? themeType]} >
             {/* screenOptions标题栏 */}
             <Stack screenOptions={{
               headerStyle: {
@@ -66,7 +75,7 @@ export default function RootLayout() {
               <Stack.Screen name="+not-found" />
             </Stack>
             <StatusBar style={colorScheme === 'dark' ? 'light' : 'auto'} />
-          </Provider>
+          </AtdProvider>
         </ThemeProvider>
       </SafeAreaProvider>
     </AppProvider>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, Button, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Switch, Image, StyleSheet, Button, FlatList, TouchableOpacity, Alert } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
@@ -32,11 +32,8 @@ const ProfileScreen = ({ navigation }: any) => {
         </View>
       </View>}>
 
-
-      {/* 编辑按钮 */}
-      {/* <TouchableOpacity style={styles.button} onPress={handleEditProfile}>
-        <Text style={styles.buttonText}>编辑个人信息</Text>
-      </TouchableOpacity> */}
+      {/* <Switch onValueChange={toggleSwitch}
+        value={isEnabled}>主题</Switch> */}
 
       <FlatList
         data={['Reading', 'Traveling', 'Photography', 'Cooking', 'Music']}
@@ -84,17 +81,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#555',
   },
-  // button: {
-  //   backgroundColor: '#4CAF50',
-  //   padding: 10,
-  //   borderRadius: 5,
-  //   marginBottom: 20,
-  // },
-  // buttonText: {
-  //   color: '#fff',
-  //   fontSize: 16,
-  //   textAlign: 'center',
-  // },
 
   interestItem: {
     padding: 15,

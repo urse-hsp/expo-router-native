@@ -1,5 +1,1 @@
-// export { useColorScheme } from 'react-native';
-
-export const useColorScheme = () => {
-  return 'dark'//'light'
-}
+export { useColorScheme } from 'react-native';

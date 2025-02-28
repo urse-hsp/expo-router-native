@@ -7,7 +7,7 @@ const tintColorLight = '#0a7ea4';
 const tintColorDark = '#fff';
 export const themeColor = 'rgb(145, 144, 243)'
 
-export const Colors = {
+export const Colors: { [key: string]: { [key: string]: string } } = {
   light: {
     text: '#11181C',
     background: '#fff',
@@ -26,18 +26,27 @@ export const Colors = {
   },
 };
 
-export const antd_dark = {
+
+// antd
+const antdPrimary = {
   brand_primary: themeColor,  // 品牌基础色 #108ee9
   fill_base: themeColor,      // 组件默认背景色 #ffffff
   primary_button_fill: themeColor,     // 按钮背景颜色 <Button type="primary">
   primary_button_fill_tap: themeColor, // 按钮下压时背景颜色
   color_icon_base: themeColor,         // 许多小图标的背景颜色
-
-  "fill_body": "#262629",
-  "fill_tap": "#2b2b2b",
-  "fill_grey": "#0a0a0a",
-  "color_text_base": "#e6e6e6",
-  "color_text_placeholder": "#4d4d4d",
-  "border_color_base": "#2b2b2b",
-  "border_color_thin": "#2b2b2b",
+}
+export const antd_theme: any = {
+  light: {
+    ...antdPrimary
+  },
+  dark: {
+    ...antdPrimary,
+    "fill_body": "#262629",
+    "fill_tap": "#2b2b2b",
+    "fill_grey": "#0a0a0a",
+    "color_text_base": "#e6e6e6",
+    "color_text_placeholder": "#4d4d4d",
+    "border_color_base": "#2b2b2b",
+    "border_color_thin": "#2b2b2b",
+  },
 }
