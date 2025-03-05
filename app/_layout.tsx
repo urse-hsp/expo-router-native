@@ -15,23 +15,27 @@ import {
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 import { antd_theme, themeColor, Colors } from '@/constants/Colors'
 import { themeType } from '@/constants/config'
+import 'expo-dev-client';
+import Constants from "expo-constants";
 
 SplashScreen.preventAutoHideAsync();
 
 
 export default function RootLayout() {
+
+  console.log(process.env, '123');
+
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
+  const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
-
   useEffect(() => {
-    if (loaded) {
+    if (loaded || error) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, error]);
 
-  if (!loaded) {
+  if (!loaded && !error) {
     return null;
   }
 
@@ -41,8 +45,8 @@ export default function RootLayout() {
   //   return <Redirect href="/login" />;
   // }
 
-  console.log(colorScheme,'colorScheme');
-  
+  console.log(colorScheme, 'colorScheme');
+
   const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme
   const MyTheme = {
     ...theme,

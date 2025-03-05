@@ -27,6 +27,8 @@ export default function TabLayout() {
           default: {},
         }),
       }}>
+      <Tabs.Screen name="(home)" />
+      <Tabs.Screen name="settings" />
       <Tabs.Screen
         name="index"
         options={{
