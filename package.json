@@ -3,6 +3,8 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
+    "start:local": "npx cross-env NODE_ENV=local expo start",
+    "start:test": "npx cross-env NODE_ENV=test expo start",
     "start": "expo start",
     "prodStart": "expo start --no-dev --minify",
     "reset-project": "node ./scripts/reset-project.js",
