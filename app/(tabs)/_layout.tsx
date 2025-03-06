@@ -27,19 +27,15 @@ export default function TabLayout() {
           default: {},
         }),
       }}>
-      <Tabs.Screen name="(home)" />
-      <Tabs.Screen name="settings" />
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
+      <Tabs.Screen name="(home)" options={{
+        title: 'Home',
+        tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+      }} />
       <Tabs.Screen
         name="my"
         options={{
           title: 'my',
+          // href: null, // 隐藏选项卡
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />

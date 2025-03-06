@@ -21,14 +21,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/icon.png" // 设置网页图标
+      "favicon": "./assets/images/splash-icon.png" // 设置网页图标
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/icon.png", // 启动屏幕图像
+          "image": "./assets/images/splash-icon.png", // 启动屏幕图像
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#000000" // 启动屏幕背景颜色
