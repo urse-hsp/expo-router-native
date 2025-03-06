@@ -15,8 +15,7 @@ import {
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 import { antd_theme, themeColor, Colors } from '@/constants/Colors'
 import { themeType } from '@/constants/config'
-import 'expo-dev-client';
-import Constants from "expo-constants";
+// import Constants from "expo-constants";
 
 SplashScreen.preventAutoHideAsync();
 
