@@ -1,5 +1,4 @@
-// 自定义的滑动页面，同步遮盖header部分的内容
-
+// 自定义滑动页面，同步遮盖header部分的内容
 import type { PropsWithChildren, ReactElement } from 'react';
 import { StyleSheet } from 'react-native';
 
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 32,
-    gap: 16,
+    // gap: 16,
     overflow: 'hidden',
   },
 });

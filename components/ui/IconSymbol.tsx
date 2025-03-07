@@ -1,5 +1,5 @@
 // This file is a fallback for using MaterialIcons on Android and web.
-
+// 文档地址：https://icons.expo.fyi/Index
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { SymbolWeight } from 'expo-symbols';
 import React from 'react';
@@ -13,6 +13,7 @@ const MAPPING = {
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  'person.fill': 'person', // 新增图标映射
 } as Partial<
   Record<
     import('expo-symbols').SymbolViewProps['name'],

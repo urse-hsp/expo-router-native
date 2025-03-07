@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Login from './index'
+import Login from './index';
 
 interface IndexType {
   isVisible?: boolean;
@@ -7,8 +7,6 @@ interface IndexType {
 }
 
 const Index: React.FC<IndexType> = (props) => {
-  return <Login type="create">
-
-  </Login>;
+  return <Login type="create"></Login>;
 };
 export default Index;
