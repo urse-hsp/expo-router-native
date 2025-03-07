@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
-import { Tabs } from '@ant-design/react-native';
-import { themeColor } from '@/constants/Colors';
-import OrderList from './orderList';
-import NftList from './nftList';
+import React, { useState } from 'react'
+import { View, Image, StyleSheet } from 'react-native'
+import ParallaxScrollView from '@/components/ParallaxScrollView'
+import { ThemedView } from '@/components/ThemedView'
+import { ThemedText } from '@/components/ThemedText'
+import { Tabs } from '@ant-design/react-native'
+import { themeColor } from '@/constants/Colors'
+import OrderList from './orderList'
+import NftList from './nftList'
 
 const ProfileScreen = ({ navigation }: any) => {
   const user = {
-    name: 'John Doe1',
+    name: 'John Doe',
     email: 'johndoe@example.com',
     phone: '+123456789',
     avatar: 'https://a.520gexing.com/uploads/allimg/2021042109/uqaqhuvavt0.jpg', // 用户头像的URL
     interests: ['Reading', 'Traveling', 'Photography'], // 用户的兴趣爱好
-  };
+  }
 
   const tabs = [
     { title: 'First Tab', value: 0 },
     { title: 'Second Tab', value: 1 },
-  ];
-  const [initialPage, setInitialPage] = useState(0);
+  ]
+  const [initialPage, setInitialPage] = useState(0)
 
   return (
     <ParallaxScrollView
@@ -40,17 +40,20 @@ const ProfileScreen = ({ navigation }: any) => {
         tabs={tabs}
         page={initialPage}
         onTabClick={(page: any) => {
-          setInitialPage(page.value);
+          setInitialPage(page.value)
         }}
         tabBarBackgroundColor="transparent"
         tabBarActiveTextColor={themeColor}
         tabBarInactiveTextColor="#333"
         tabBarTextStyle={{ fontSize: 16 }}
+        style={{ padding: 0 }}
       />
-      <View>{initialPage === 0 ? <OrderList /> : <NftList />}</View>
+      <View style={styles.content}>
+        {initialPage === 0 ? <OrderList /> : <NftList />}
+      </View>
     </ParallaxScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   avatar: {
@@ -86,6 +89,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-});
 
-export default ProfileScreen;
+  content: {
+    paddingTop: 10,
+  },
+})
+
+export default ProfileScreen
