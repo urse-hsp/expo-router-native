@@ -3,39 +3,39 @@ import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
-} from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-import { SafeAreaProvider } from 'react-native-safe-area-context'; // 双端安全区
-import { useColorScheme } from '@/hooks/useColorScheme';
-import AppProvider from '@/models/app';
-import { Provider as AtdProvider } from '@ant-design/react-native';
+} from '@react-navigation/native'
+import { useFonts } from 'expo-font'
+import { Stack } from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
+import { StatusBar } from 'expo-status-bar'
+import { useEffect } from 'react'
+import 'react-native-reanimated'
+import { SafeAreaProvider } from 'react-native-safe-area-context' // 双端安全区
+import { useColorScheme } from '@/hooks/useColorScheme'
+import AppProvider from '@/models/app'
+import { Provider as AtdProvider } from '@ant-design/react-native'
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-import { antd_theme, themeColor, Colors } from '@/constants/Colors';
-import { themeType } from '@/constants/config';
+import { antd_theme, themeColor, Colors } from '@/constants/Colors'
+import { themeType } from '@/constants/config'
 // import Constants from "expo-constants";
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  console.log(process.env, '123');
+  console.log(process.env, '123')
 
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme()
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  })
   useEffect(() => {
     if (loaded || error) {
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync()
     }
-  }, [loaded, error]);
+  }, [loaded, error])
 
   if (!loaded && !error) {
-    return null;
+    return null
   }
 
   // 登录权限
@@ -44,9 +44,9 @@ export default function RootLayout() {
   //   return <Redirect href="/login" />;
   // }
 
-  console.log(colorScheme, 'colorScheme');
+  console.log(colorScheme, 'colorScheme')
 
-  const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
+  const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme
   const MyTheme = {
     ...theme,
     colors: {
@@ -55,7 +55,7 @@ export default function RootLayout() {
       primary: themeColor,
     },
     dark: true,
-  };
+  }
 
   return (
     <AppProvider>
@@ -83,5 +83,5 @@ export default function RootLayout() {
         </ThemeProvider>
       </SafeAreaProvider>
     </AppProvider>
-  );
+  )
 }

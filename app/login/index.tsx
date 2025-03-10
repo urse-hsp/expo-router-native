@@ -53,7 +53,7 @@ export default function LoginScreen(props: any) {
       </ThemedText>
 
       <Form
-        name="basic"
+        name="vertical"
         form={form}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -65,7 +65,7 @@ export default function LoginScreen(props: any) {
         style={styles.form}
         styles={{
           Body: {
-            borderBottomWidth: 0, // 去掉下划线
+            // borderBottomWidth: 0, // 去掉下划线
             borderWidth: 0, // 确保没有边框
           },
           BodyBottomLine: {
@@ -94,49 +94,89 @@ export default function LoginScreen(props: any) {
           required={false}
           style={styles.formItem}
           styles={FormItemStyles}
+          wrapperStyle={wrapperStyle}
         >
           <Input placeholder="请输入邮箱" style={styles.formItemInput} />
         </Form.Item>
 
         <Form.Item
-          label={
-            <ThemedView
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <ThemedText>验证码</ThemedText>
-              <>
-                {isActive === false ? (
-                  <ThemedText
-                    onPress={() => {
-                      start()
-                    }}
-                  >
-                    获取验证码
-                  </ThemedText>
-                ) : (
-                  <ThemedText>{time}秒</ThemedText>
-                )}
-              </>
-            </ThemedView>
-          }
-          name="code"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
+          label="密码"
+          name="email"
+          validateDebounce={700}
+          // rules={[
+          //   {
+          //     required: true,
+          //   },
+          // ]}
           required={false}
           style={styles.formItem}
           styles={FormItemStyles}
-          labelStyle={{
-            width: '100%',
-          }}
+          wrapperStyle={wrapperStyle}
         >
-          <Input placeholder="请输入验证码" style={styles.formItemInput} />
+          <Input placeholder="请输入邮箱" style={styles.formItemInput} />
         </Form.Item>
+
+        {type === 'create' && (
+          <>
+            <Form.Item
+              label="确认密码"
+              name="email"
+              validateDebounce={700}
+              // rules={[
+              //   {
+              //     required: true,
+              //   },
+              // ]}
+              required={false}
+              style={styles.formItem}
+              styles={FormItemStyles}
+              wrapperStyle={wrapperStyle}
+            >
+              <Input placeholder="请输入邮箱" style={styles.formItemInput} />
+            </Form.Item>
+
+            <Form.Item
+              label={
+                <ThemedView
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <ThemedText>验证码</ThemedText>
+                  <>
+                    {isActive === false ? (
+                      <ThemedText
+                        onPress={() => {
+                          start()
+                        }}
+                      >
+                        获取验证码
+                      </ThemedText>
+                    ) : (
+                      <ThemedText>{time}秒</ThemedText>
+                    )}
+                  </>
+                </ThemedView>
+              }
+              name="code"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              required={false}
+              style={styles.formItem}
+              styles={FormItemStyles}
+              labelStyle={{
+                width: '100%',
+              }}
+              wrapperStyle={wrapperStyle}
+            >
+              <Input placeholder="请输入验证码" style={styles.formItemInput} />
+            </Form.Item>
+          </>
+        )}
 
         <Form.Item style={styles.formItem} styles={FormItemStyles}>
           {type === 'login' && (
@@ -165,11 +205,17 @@ export default function LoginScreen(props: any) {
   )
 }
 
+const wrapperStyle: any = {
+  // minHeight: 93,
+  justifyContent: 'flex-start',
+}
+
 const FormItemStyles = {
-  formItemControl: {
-    paddingLeft: 13,
+  Line: {
+    borderWidth: 0,
   },
-  formItemLabel: {
+
+  Content: {
     paddingLeft: 13,
   },
 }
@@ -188,6 +234,7 @@ const styles = StyleSheet.create({
   formItem: {
     paddingLeft: 0,
     backgroundColor: 'transparent',
+    // height: 93,
   },
   formItemInput: {
     marginTop: 20,

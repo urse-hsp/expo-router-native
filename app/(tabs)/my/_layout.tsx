@@ -45,8 +45,8 @@ const ProfileScreen = ({ navigation }: any) => {
         tabBarBackgroundColor="transparent"
         tabBarActiveTextColor={themeColor}
         tabBarInactiveTextColor="#333"
-        tabBarTextStyle={{ fontSize: 16 }}
-        style={{ padding: 0 }}
+        // tabBarTextStyle={{ fontSize: 16 }}
+        style={{ padding: 0, width: '100%' }}
       />
       <View style={styles.content}>
         {initialPage === 0 ? <OrderList /> : <NftList />}

@@ -1,6 +1,12 @@
 // 公共页面。
 import type { PropsWithChildren } from 'react'
-import { StyleSheet, ScrollView, StyleProp, ViewStyle } from 'react-native'
+import {
+  StyleSheet,
+  ScrollView,
+  StyleProp,
+  ViewStyle,
+  FlatList,
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ThemedView } from '@/components/ThemedView'
 import { ScreenProps, Stack } from 'expo-router'
