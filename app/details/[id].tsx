@@ -50,6 +50,8 @@ export default function DetailsScreen() {
             数字藏品为虚拟数字商品，而非实物，仅限实名认证为18岁以上的中国大陆用户购买。数字藏品的版权由发行方或原创者拥有，除另行取得版权拥有者书面同意外，用户不得将数字藏品用于任何商业用途。本商品一经售出，不支持退换。本商品源文件不支持本地下载。请勿对数字藏品进行炒作、场外交易，或任何其他非法形式使用。
           </ThemedText>
         </Card>
+
+        <Image source={footer_img} style={styles.footerimg} />
       </PagesScrollView>
 
       <View style={{ ...styles.footer, marginBottom: insets.bottom }}>
@@ -113,9 +115,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 24,
   },
+  footerimg: {
+    width: 194,
+    height: 18,
+    margin: 'auto',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+
   footerBtn: {
-    // width: '100%',
-    // height: 50,
     borderRadius: 20,
     width: 170,
   },

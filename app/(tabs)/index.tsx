@@ -1,28 +1,35 @@
 import PagesScrollView from '@/components/PagesScrollView'
 import { ThemedText } from '@/components/ThemedText'
-import ThemedView from '@/components/ThemedView'
-import { Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
-import { useState, useEffect } from 'react'
+import {
+  View,
+  Image,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native'
+import { useState } from 'react'
 import { useRouter } from 'expo-router'
+import ai_img from '@/assets/images/ai.jpg'
+import { Link } from 'expo-router'
 
 const initialData = [
   {
-    spu_id: 2,
+    spu_id: 1,
     spu_no: '234',
     goods_name: '水果13水果13水果13水果13水果13水果13水果13水果13',
     low_price: '998.88',
-    image_file:
-      'https://tse1-mm.cn.bing.net/th/id/OIP-C.jdP04yEoxG10mcywseQj7gAAAA?w=173&h=180&c=7&r=0&o=5&pid=1.7',
+    image_file: ai_img,
   },
   {
-    spu_id: 1,
+    spu_id: 2,
     spu_no: '123',
     goods_name: '大菠萝3',
     low_price: '499',
-    image_file:
-      'https://tse1-mm.cn.bing.net/th/id/OIP-C.jdP04yEoxG10mcywseQj7gAAAA?w=173&h=180&c=7&r=0&o=5&pid=1.7',
+    image_file: require('@/assets/images/ai.jpg'), // 使用 require 引用本地图片
   },
 ]
+
+export const Item = () => {}
 
 export default function HomeScreen({ navigate }: any) {
   const [data, setData] = useState(initialData)
@@ -43,8 +50,7 @@ export default function HomeScreen({ navigate }: any) {
         spu_no: '123',
         goods_name: '大菠萝3',
         low_price: '499',
-        image_file:
-          'https://tse1-mm.cn.bing.net/th/id/OIP-C.jdP04yEoxG10mcywseQj7gAAAA?w=173&h=180&c=7&r=0&o=5&pid=1.7',
+        image_file: ai_img,
       },
     ]
 
@@ -54,32 +60,39 @@ export default function HomeScreen({ navigate }: any) {
   }
 
   const RenderItem = ({ item }: any) => {
-    console.log('item')
-
     return (
       <TouchableOpacity
+        activeOpacity={1}
         style={styles.card}
         onPress={() => router.push(`/details/${item.spu_id}`)}
       >
-        <Image source={{ uri: item.image_file }} style={styles.image} />
-        <ThemedView>
-          <ThemedText
-            style={styles.name}
-            numberOfLines={2}
-            ellipsizeMode="tail"
-          >
-            {item.goods_name}
-          </ThemedText>
-        </ThemedView>
-        <ThemedView style={styles.description}>
-          <ThemedText style={styles.price}>价格: {item.low_price}</ThemedText>
-        </ThemedView>
+        <Image source={item.image_file} style={styles.image} />
+        <View style={styles.mian}>
+          <View>
+            <ThemedText
+              style={styles.name}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {item.goods_name}
+            </ThemedText>
+          </View>
+          <View style={styles.description}>
+            <ThemedText style={styles.price}>
+              价格: {item?.low_price}
+            </ThemedText>
+            <ThemedText style={styles.status}>已开售</ThemedText>
+          </View>
+        </View>
       </TouchableOpacity>
     )
   }
 
   return (
     <PagesScrollView style={styles.container}>
+      <Link href="/modal">
+        <ThemedText>Open modal</ThemedText>
+      </Link>
       <FlatList
         data={data}
         renderItem={RenderItem}
@@ -87,11 +100,10 @@ export default function HomeScreen({ navigate }: any) {
         // onEndReached={fetchMoreData}
         onEndReachedThreshold={0.5}
         horizontal={false}
-        numColumns={2}
+        // numColumns={1}
         ListFooterComponent={
           loading ? <ThemedText>加载中...</ThemedText> : null
         }
-        columnWrapperStyle={styles.list}
       />
     </PagesScrollView>
   )
@@ -103,32 +115,46 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   card: {
-    borderRadius: 20,
+    borderRadius: 37,
     // alignItems: 'center',
     overflow: 'hidden',
-    marginBottom: 10,
+    marginBottom: 20,
     flex: 1,
-    maxWidth: '48%', // 确保每行两个项目
-    padding: 7,
+    maxWidth: '100%', // 确保每行两个项目
+    // padding: 7,
     borderWidth: 1, // 添加边框宽度
     borderColor: '#444444', // 添加边框颜色
+    backgroundColor: '#1D1D1D',
   },
   image: {
     width: '100%',
-    height: 150,
-    borderRadius: 15,
+    height: 300,
+    borderRadius: 37,
+  },
+  mian: {
+    paddingTop: 15,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 15,
   },
   name: {
-    fontSize: 15,
+    fontSize: 18,
     fontWeight: 'bold',
     marginTop: 8,
-    height: 48,
+    // height: 48,
   },
   description: {
     marginTop: 4,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   price: {
-    fontSize: 14,
+    fontSize: 15,
     color: '#666',
+  },
+  status: {
+    fontSize: 15,
+    color: 'rgb(255, 117, 74)',
   },
 })

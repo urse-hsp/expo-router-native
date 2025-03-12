@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { View, Image, StyleSheet } from 'react-native'
 import ParallaxScrollView from '@/components/ParallaxScrollView'
-import { ThemedView } from '@/components/ThemedView'
 import { ThemedText } from '@/components/ThemedText'
 import { Tabs } from '@ant-design/react-native'
 import { themeColor } from '@/constants/Colors'
@@ -18,8 +17,8 @@ const ProfileScreen = ({ navigation }: any) => {
   }
 
   const tabs = [
-    { title: 'First Tab', value: 0 },
-    { title: 'Second Tab', value: 1 },
+    { title: '我的藏品', value: 0 },
+    { title: '订单列表', value: 1 },
   ]
   const [initialPage, setInitialPage] = useState(0)
 
@@ -49,7 +48,7 @@ const ProfileScreen = ({ navigation }: any) => {
         style={{ padding: 0, width: '100%' }}
       />
       <View style={styles.content}>
-        {initialPage === 0 ? <OrderList /> : <NftList />}
+        {initialPage === 0 ? <NftList /> : <OrderList />}
       </View>
     </ParallaxScrollView>
   )

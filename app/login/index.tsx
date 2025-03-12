@@ -205,12 +205,12 @@ export default function LoginScreen(props: any) {
   )
 }
 
-const wrapperStyle: any = {
+export const wrapperStyle: any = {
   // minHeight: 93,
   justifyContent: 'flex-start',
 }
 
-const FormItemStyles = {
+export const FormItemStyles = {
   Line: {
     borderWidth: 0,
   },
@@ -220,7 +220,7 @@ const FormItemStyles = {
   },
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
@@ -249,9 +249,4 @@ const styles = StyleSheet.create({
       'background: linear-gradient(52deg, rgb(145, 144, 243) 0%, rgb(250, 127, 178) 100%);',
     marginTop: 20,
   },
-
-  // input: {
-  //   borderBottomWidth: 0, // 去掉下划线
-  //   borderWidth: 0, // 确保没有边框
-  // },
 })

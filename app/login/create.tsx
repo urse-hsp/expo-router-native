@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Login from './index';
+import React from 'react'
+import Login from './index'
 
-interface IndexType {
-  isVisible?: boolean;
-  onClose?: () => any;
+const Index = () => {
+  return <Login type="create" />
 }
-
-const Index: React.FC<IndexType> = (props) => {
-  return <Login type="create"></Login>;
-};
-export default Index;
+export default Index

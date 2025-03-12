@@ -75,6 +75,15 @@ export default function RootLayout() {
                 headerShown: false, // 隐藏底部导航栏，PagesScrollView使用SafeAreaView统一处理安全区
               }}
             >
+              <Stack.Screen
+                name="modal"
+                options={{
+                  presentation: 'modal',
+                  // animation: 'fade',
+                  headerShown: true,
+                  title: '兑换',
+                }}
+              />
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />
             </Stack>
