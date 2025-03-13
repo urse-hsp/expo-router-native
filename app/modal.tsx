@@ -4,7 +4,8 @@ import Animated, { SlideInDown } from 'react-native-reanimated'
 import { StatusBar } from 'expo-status-bar'
 import { Form, Input, Button } from '@ant-design/react-native'
 import { FormItemStyles, styles, wrapperStyle } from '@/app/login'
-// import Alipay from 'react-native-alipay'
+import { pay } from 'react-native-alipay'
+
 import { Alert } from 'react-native'
 import React, { useState } from 'react'
 
@@ -44,36 +45,52 @@ export default function Modal() {
 
   // 调用支付宝支付
   const handleAlipay = async () => {
-    const orderInfo = `
-      app_id=9021000146609633
-      &method=alipay.trade.app.pay
-      &charset=utf-8
-      &sign_type=RSA2
-      &timestamp=2025-03-11 10:00:00
-      &version=1.0
-      &biz_content={"out_trade_no":"daniel88AAAA000032333389","total_amount":1,"subject":"测试商品","product_code":"QUICK_MSECURITY_PAY"}
-      &sign=xxx
-    `.replace(/\s+/g, '') // 去除空格
+    // const orderInfo = `
+    //   app_id=9021000146609633
+    //   &method=alipay.trade.app.pay
+    //   &charset=utf-8
+    //   &sign_type=RSA2
+    //   &timestamp=2025-03-11 10:00:00
+    //   &version=1.0
+    //   &biz_content={"out_trade_no":"daniel88AAAA000032333389","total_amount":1,"subject":"测试商品","product_code":"QUICK_MSECURITY_PAY"}
+    //   &sign=xxx
+    // `.replace(/\s+/g, '') // 去除空格
+    const orderInfo = {
+      app_id: '9021000146609633',
+      method: 'alipay.trade.app.pay',
+      format: 'json',
+      charset: 'utf-8',
+      sign_type: 'RSA2',
+      timestamp: '2025-03-12 12:00:00',
+      version: '1.0',
+      biz_content: JSON.stringify({
+        out_trade_no: 'daniel88AAAA000032333329',
+        total_amount: 1,
+        subject: '测试商品',
+        product_code: 'QUICK_MSECURITY_PAY',
+      }),
+      sign: 'your_generated_sign', // 需要使用私钥生成签名
+    }
 
     if (!orderInfo) return
-    // console.log('Alipay SDK:', Alipay)
+    console.log('Alipay SDK:', pay)
 
-    // try {
-    //   const result = await Alipay.pay(orderInfo)
-    //   console.log(result, 'result')
+    try {
+      const result = await pay(orderInfo)
+      console.log(result, 'result')
 
-    //   // 解析支付宝支付结果
-    //   if (result.resultStatus === '9000') {
-    //     Alert.alert('支付成功', '订单已支付')
-    //   } else if (result.resultStatus === '6001') {
-    //     Alert.alert('支付取消', '用户取消了支付')
-    //   } else {
-    //     Alert.alert('支付失败', result.memo || '支付未完成')
-    //   }
-    // } catch (error: any) {
-    //   // Alert.alert('支付异常', error.message || '请重试')
-    //   console.log('支付异常', error.message || '请重试')
-    // }
+      // 解析支付宝支付结果
+      if (result.resultStatus === '9000') {
+        Alert.alert('支付成功', '订单已支付')
+      } else if (result.resultStatus === '6001') {
+        Alert.alert('支付取消', '用户取消了支付')
+      } else {
+        Alert.alert('支付失败', result.memo || '支付未完成')
+      }
+    } catch (error: any) {
+      Alert.alert('支付异常', error.message || '请重试')
+      console.log('支付异常', error.message || '请重试')
+    }
   }
 
   const onSubmit = () => {

@@ -2,13 +2,13 @@ import { StyleSheet } from 'react-native'
 import PagesScrollView from '@/components/PagesScrollView'
 import React, { useContext } from 'react'
 import { AppContext } from '@/models/app'
-import { useTopicDetails, useTopicDetailsTrigger } from '@/services/login'
 import { Form, Input, Button } from '@ant-design/react-native'
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
 import { APP_NAME } from '@/constants/config'
-import { useRouter } from 'expo-router'
+import { useRouter, useRootNavigationState } from 'expo-router'
 import useCountdown from '@/hooks/useCountdown'
+import { useTopicLogin } from '@/services/login'
 
 const typeDic = {
   login: '登录',
@@ -16,19 +16,36 @@ const typeDic = {
 }
 export default function LoginScreen(props: any) {
   const type: 'login' | 'create' = props.type || 'login'
-  const { appInfo, toggleApp }: any = useContext(AppContext)
-  const { data, loading } = useTopicDetails()
-  const { loading: loading_1, trigger } = useTopicDetailsTrigger()
+  const { appInfo, setAppData }: any = useContext(AppContext)
   const [form] = Form.useForm()
   const router = useRouter()
+  const navigationState = useRootNavigationState()
+
   const { time, start, isActive } = useCountdown(10)
+
+  const { trigger: logintrigger } = useTopicLogin()
 
   const onSubmit = () => {
     form.submit()
   }
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values)
+  const handleBackPress = () => {
+    if (navigationState.index > 0) {
+      // 如果可以返回，则执行返回操作
+      router.back()
+    } else {
+      // 如果不能返回，则重新定位到指定页面
+      router.replace('/') // 替换为你想要重新定位的页面路径
+    }
+  }
+
+  const onFinish = async (values: any) => {
+    try {
+      const { data } = await logintrigger(values)
+      console.log(data, 'res')
+      handleBackPress()
+      setAppData(data)
+    } catch (error) {}
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -58,8 +75,8 @@ export default function LoginScreen(props: any) {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         initialValues={{
-          code: '',
-          email: '',
+          password: '123123',
+          email: '374108235@qq.com',
         }}
         layout="vertical"
         style={styles.form}
@@ -101,19 +118,23 @@ export default function LoginScreen(props: any) {
 
         <Form.Item
           label="密码"
-          name="email"
+          name="password"
           validateDebounce={700}
-          // rules={[
-          //   {
-          //     required: true,
-          //   },
-          // ]}
+          rules={[
+            {
+              min: 6,
+              message: '密码最少6位',
+            },
+            {
+              required: true,
+            },
+          ]}
           required={false}
           style={styles.formItem}
           styles={FormItemStyles}
           wrapperStyle={wrapperStyle}
         >
-          <Input placeholder="请输入邮箱" style={styles.formItemInput} />
+          <Input placeholder="请输入密码" style={styles.formItemInput} />
         </Form.Item>
 
         {type === 'create' && (

@@ -20,7 +20,7 @@ import { styles as styles_ } from './PagesScrollView'
 const HEADER_HEIGHT = 250
 
 type Props = PropsWithChildren<{
-  headerImage: ReactElement
+  headerImage?: ReactElement
   headerBackgroundColor: { dark: string; light: string }
 }>
 
@@ -62,15 +62,17 @@ export default function ParallaxScrollView({
         scrollIndicatorInsets={{ bottom }}
         contentContainerStyle={{ paddingBottom: bottom }}
       >
-        <Animated.View
-          style={[
-            styles.header,
-            { backgroundColor: headerBackgroundColor[colorScheme] },
-            headerAnimatedStyle,
-          ]}
-        >
-          {headerImage}
-        </Animated.View>
+        {headerImage && (
+          <Animated.View
+            style={[
+              styles.header,
+              { backgroundColor: headerBackgroundColor[colorScheme] },
+              headerAnimatedStyle,
+            ]}
+          >
+            {headerImage}
+          </Animated.View>
+        )}
         <ThemedView style={styles_.content}>{children}</ThemedView>
       </Animated.ScrollView>
     </ThemedView>

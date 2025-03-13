@@ -2,5 +2,5 @@
 import { themeType } from '@/constants/config'
 
 export const useColorScheme = () => {
-  return themeType; //'light'
+  return themeType //'light'
 }

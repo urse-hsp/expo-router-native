@@ -1,37 +1,55 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { View, Text, Button } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useState, useEffect } from 'react'
 import useStorage from '@/hooks/useStorage'
 import { dataType } from '@/utils/apiList'
+import { useRouter } from 'expo-router'
+import Toast from 'react-native-toast-message'
 
 // 创建 Context
-export const AppContext = createContext();
+export const AppContext = createContext()
 
 // AppProvider 组件，用来包裹需要使用状态的组件
 const AppProvider = ({ children }: any) => {
-  const { saveData, loadData } = useStorage()
-  const [appInfo, setAppInfo] = useState<dataType<any> | null>(null);
+  const { saveData, loadData, deleteData } = useStorage('appInfo')
+  const [appInfo, setAppInfo] = useState<dataType<any> | null>(null)
+  const router = useRouter()
 
-  const toggleApp = (data: dataType<any>) => {
+  const setAppData = (data: dataType<any>) => {
     saveData(data, () => {
-      setAppInfo(data);  // 如果有数据，则更新状态
+      setAppInfo(data) // 如果有数据，则更新状态
     })
-  };
+  }
 
   useEffect(() => {
     // 组件加载时读取数据
-    loadData((stored) => {
-      setAppInfo(stored)
+    loadData(
+      (stored) => {
+        setAppInfo(stored)
+      },
+      () => {
+        router.replace('/login')
+      },
+    )
+  }, [])
+
+  // 退出
+  const exit = () => {
+    deleteData(() => {
+      setAppInfo(null)
+      router.replace('/login')
+      Toast.show({
+        type: 'success',
+        text1: '退出成功',
+      })
     })
-  }, []);
+  }
 
   return (
-    <AppContext.Provider value={{ appInfo, toggleApp }}>
+    <AppContext.Provider value={{ appInfo, setAppData, exit }}>
       {children}
     </AppContext.Provider>
-  );
-};
+  )
+}
 
 // 使用 AppContext 的组件
-// const { App, toggleApp } = useContext(AppContext);
+// const { App, setAppData } = useContext(AppContext);
 export default AppProvider

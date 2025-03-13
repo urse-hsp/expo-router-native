@@ -17,13 +17,11 @@ import { Provider as AtdProvider } from '@ant-design/react-native'
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 import { antd_theme, themeColor, Colors } from '@/constants/Colors'
 import { themeType } from '@/constants/config'
-// import Constants from "expo-constants";
+import Toast from 'react-native-toast-message'
 
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  console.log(process.env, '123')
-
   const colorScheme = useColorScheme()
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -37,14 +35,6 @@ export default function RootLayout() {
   if (!loaded && !error) {
     return null
   }
-
-  // 登录权限
-  // const { user } = useAuth();
-  // if (!user) {
-  //   return <Redirect href="/login" />;
-  // }
-
-  console.log(colorScheme, 'colorScheme')
 
   const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme
   const MyTheme = {
@@ -72,7 +62,7 @@ export default function RootLayout() {
                 headerTitleStyle: {
                   fontWeight: 'bold',
                 },
-                headerShown: false, // 隐藏底部导航栏，PagesScrollView使用SafeAreaView统一处理安全区
+                // headerShown: false, // 隐藏底部导航栏，PagesScrollView使用SafeAreaView统一处理安全区
               }}
             >
               <Stack.Screen
@@ -88,6 +78,8 @@ export default function RootLayout() {
               <Stack.Screen name="+not-found" />
             </Stack>
             <StatusBar style={colorScheme === 'dark' ? 'light' : 'auto'} />
+            {/* 你的应用内容 */}
+            <Toast />
           </AtdProvider>
         </ThemeProvider>
       </SafeAreaProvider>

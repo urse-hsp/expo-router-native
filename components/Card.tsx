@@ -5,11 +5,15 @@ import type { PropsWithChildren } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 
 type Props = PropsWithChildren<{
-  style?: StyleProp<ViewStyle> | undefined
+  style?: StyleProp<ViewStyle>
 }>
 
-const Index: React.FC<Props> = ({ children }) => {
-  return <ThemedView style={styles.container}>{children}</ThemedView>
+const Index: React.FC<Props> = ({ children, style }) => {
+  return (
+    <ThemedView style={{ ...styles.container, ...style }}>
+      {children}
+    </ThemedView>
+  )
 }
 export default Index
 
