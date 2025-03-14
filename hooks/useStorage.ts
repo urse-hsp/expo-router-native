@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { APP_NAME } from '@/constants/config'
-const STORAGE_PREFIX = APP_NAME + '_'
+export const STORAGE_PREFIX = APP_NAME + '_'
 
 /**
  *
@@ -33,6 +33,7 @@ export default function useStorage(name: string) {
       console.error('Failed to save data:', error)
     }
   }
+
   // 删除数据
   const deleteData = async (Callback = () => {}) => {
     try {

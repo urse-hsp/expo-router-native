@@ -42,9 +42,10 @@ export default function LoginScreen(props: any) {
   const onFinish = async (values: any) => {
     try {
       const { data } = await logintrigger(values)
-      console.log(data, 'res')
-      handleBackPress()
-      setAppData(data)
+      if (data) {
+        handleBackPress()
+        setAppData(data)
+      }
     } catch (error) {}
   }
 

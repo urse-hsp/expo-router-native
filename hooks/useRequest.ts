@@ -3,7 +3,7 @@
  * https://docs.expo.dev/guides/color-schemes/
  */
 import { dataType, urlProps } from '@/utils/apiList'
-import { request, get, post, put, del } from '@/utils/fetch'
+import { useFetcher } from '@/utils/fetch'
 import { useEffect, useMemo, useState } from 'react'
 
 interface fetcherDataProps extends urlProps {
@@ -23,6 +23,7 @@ export interface useGetRequestType<Data = any, Error = any> {
 export function useGetRequest(options: fetcherDataProps): useGetRequestType {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
+  const request = useFetcher()
 
   // GET 请求示例
   const fetchData = async () => {
@@ -61,6 +62,7 @@ export function useTriggerRequest(
   options: fetcherDataProps,
 ): useTriggerRequest {
   const [loading, setLoading] = useState(false)
+  const request = useFetcher()
 
   // // POST 请求示例
   const trigger = async (data: any) => {

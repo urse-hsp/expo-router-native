@@ -48,8 +48,8 @@ export default function RootLayout() {
   }
 
   return (
-    <AppProvider>
-      <SafeAreaProvider initialMetrics={null}>
+    <SafeAreaProvider initialMetrics={null}>
+      <AppProvider>
         <ThemeProvider value={MyTheme}>
           <AtdProvider theme={antd_theme[colorScheme ?? themeType]}>
             {/* screenOptions标题栏 */}
@@ -79,10 +79,10 @@ export default function RootLayout() {
             </Stack>
             <StatusBar style={colorScheme === 'dark' ? 'light' : 'auto'} />
             {/* 你的应用内容 */}
-            <Toast />
           </AtdProvider>
         </ThemeProvider>
-      </SafeAreaProvider>
-    </AppProvider>
+      </AppProvider>
+      <Toast />
+    </SafeAreaProvider>
   )
 }

@@ -4,12 +4,14 @@ import { dataType } from '@/utils/apiList'
 import { useRouter } from 'expo-router'
 import Toast from 'react-native-toast-message'
 
+export const APPSTORAGENAME = 'appInfo'
+
 // 创建 Context
 export const AppContext = createContext()
 
 // AppProvider 组件，用来包裹需要使用状态的组件
 const AppProvider = ({ children }: any) => {
-  const { saveData, loadData, deleteData } = useStorage('appInfo')
+  const { saveData, loadData, deleteData } = useStorage(APPSTORAGENAME)
   const [appInfo, setAppInfo] = useState<dataType<any> | null>(null)
   const router = useRouter()
 
