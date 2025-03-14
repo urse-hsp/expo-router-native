@@ -1,31 +1,42 @@
 import { API_BASE_URL } from '@/constants/config'
 import { Toast } from '@ant-design/react-native'
-// import AsyncStorage from '@react-native-async-storage/async-storage'
-// import { STORAGE_PREFIX } from '@/hooks/useStorage'
-// import { APPSTORAGENAME } from '@/models/app'
 import { AppContext } from '@/models/app'
 import { useContext } from 'react'
+import useAuth from '@/hooks/useAuth'
+import { setGetPath } from '@/utils'
+import { methodType } from '@/utils/apiList'
 
 export const useFetcher = () => {
   const { exit }: any = useContext(AppContext)
+  const token = useAuth()
 
   const request = async (
     endpoint: string,
-    method = 'GET',
-    body = null, // POST/PUT 的时候需要填写
+    method: methodType = 'GET',
+    body = {}, // POST/PUT 的时候需要填写
   ) => {
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      // 处理URL参数
+      const path = setGetPath(endpoint ?? '', {
+        url: endpoint,
+        method: method,
+        data: body,
+      })
+
+      const response = await fetch(`${API_BASE_URL}${path}`, {
         method,
         headers: {
           // 'Content-Type': 'application/json',
-          // 如果需要添加 token 或其他认证信息，可以在这里加
-          // 'Authorization': `Bearer ${token}`,
+          access_token: token,
         },
         body: body ? JSON.stringify(body) : null,
       })
       const result = await response.json()
       if (result?.code === 401) {
+        Toast.show({
+          type: 'error',
+          content: 'token',
+        })
         // 权限过期
         exit()
         return result
@@ -46,7 +57,6 @@ export const useFetcher = () => {
       throw error // 可以根据需要自定义错误处理
     }
   }
-
   return request
 }
 

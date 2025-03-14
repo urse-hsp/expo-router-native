@@ -1,4 +1,6 @@
+// import AsyncStorage from '@/utils/storage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
 import { APP_NAME } from '@/constants/config'
 export const STORAGE_PREFIX = APP_NAME + '_'
 

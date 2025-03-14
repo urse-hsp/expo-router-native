@@ -1,56 +1,114 @@
 import { StyleSheet } from 'react-native'
 import PagesScrollView from '@/components/PagesScrollView'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppContext } from '@/models/app'
 import { Form, Input, Button } from '@ant-design/react-native'
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
 import { APP_NAME } from '@/constants/config'
-import { useRouter, useRootNavigationState } from 'expo-router'
+import { useRouter, Href, useRootNavigationState } from 'expo-router'
 import useCountdown from '@/hooks/useCountdown'
-import { useTopicLogin } from '@/services/login'
+import {
+  useTopicLogin,
+  useSendEmailVerification,
+  useRegister,
+} from '@/services/login'
+import Toast from 'react-native-toast-message'
 
 const typeDic = {
   login: '登录',
   create: '注册',
 }
+
+const passrules = [
+  {
+    min: 6,
+    message: '密码最少6位',
+  },
+  {
+    required: true,
+  },
+]
+
 export default function LoginScreen(props: any) {
   const type: 'login' | 'create' = props.type || 'login'
   const { appInfo, setAppData }: any = useContext(AppContext)
   const [form] = Form.useForm()
   const router = useRouter()
   const navigationState = useRootNavigationState()
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const { time, start, isActive } = useCountdown(10)
 
   const { trigger: logintrigger } = useTopicLogin()
+  const { trigger: sendEmailVerification } = useSendEmailVerification()
+  const { trigger: register } = useRegister()
 
   const onSubmit = () => {
     form.submit()
   }
 
-  const handleBackPress = () => {
+  const handleBackPress = (path: Href = '/') => {
     if (navigationState.index > 0) {
       // 如果可以返回，则执行返回操作
       router.back()
     } else {
       // 如果不能返回，则重新定位到指定页面
-      router.replace('/') // 替换为你想要重新定位的页面路径
+      router.replace(path) // 替换为你想要重新定位的页面路径
     }
   }
 
   const onFinish = async (values: any) => {
-    try {
-      const { data } = await logintrigger(values)
-      if (data) {
-        handleBackPress()
-        setAppData(data)
-      }
-    } catch (error) {}
+    if (type === 'login') {
+      // 登录
+      try {
+        const { data } = await logintrigger(values)
+        if (data) {
+          handleBackPress()
+          setAppData(data)
+        }
+      } catch (error) {}
+    } else {
+      // 注册
+      try {
+        const res = await register(values)
+        if (res?.code === 0) {
+          Toast.show({
+            type: 'success',
+            text1: '注册成功',
+            onShow() {
+              setTimeout(() => handleBackPress('/login'), 150)
+            },
+          })
+        }
+      } catch (error) {}
+    }
   }
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo)
+  }
+
+  // 验证码
+  const handleSendEmailVerification = async () => {
+    try {
+      const email = form.getFieldValue('email')
+      if (!email) {
+        form.validateFields(['email'])
+        return
+      }
+
+      const res = await sendEmailVerification({ email })
+      if (res?.code === 0) {
+        start()
+        Toast.show({
+          type: 'success',
+          text1: '发送成功',
+        })
+      }
+    } catch (error) {
+      console.error('Failed to send email verification:', error)
+    }
   }
 
   const Tiele = typeDic[type]
@@ -62,6 +120,17 @@ export default function LoginScreen(props: any) {
       headerShown: true,
     },
   }
+
+  const initialValues =
+    type === 'login'
+      ? { email: 'hsp_email@163.com', password: '123456' }
+      : {
+          email: '',
+          password: '',
+          password2: '',
+          verification_code: '',
+          nick_name: '',
+        }
 
   return (
     <PagesScrollView options={props_.options}>
@@ -75,10 +144,7 @@ export default function LoginScreen(props: any) {
         form={form}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        initialValues={{
-          password: '123123',
-          email: '374108235@qq.com',
-        }}
+        initialValues={initialValues}
         layout="vertical"
         style={styles.form}
         styles={{
@@ -91,6 +157,23 @@ export default function LoginScreen(props: any) {
           },
         }}
       >
+        {type === 'create' && (
+          <Form.Item
+            label="用户昵称"
+            name="nick_name"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+            required={false}
+            style={styles.formItem}
+            styles={FormItemStyles}
+          >
+            <Input placeholder="请输入昵称" style={styles.formItemInput} />
+          </Form.Item>
+        )}
+
         <Form.Item
           label="邮箱"
           name="email"
@@ -112,7 +195,6 @@ export default function LoginScreen(props: any) {
           required={false}
           style={styles.formItem}
           styles={FormItemStyles}
-          wrapperStyle={wrapperStyle}
         >
           <Input placeholder="请输入邮箱" style={styles.formItemInput} />
         </Form.Item>
@@ -121,40 +203,42 @@ export default function LoginScreen(props: any) {
           label="密码"
           name="password"
           validateDebounce={700}
-          rules={[
-            {
-              min: 6,
-              message: '密码最少6位',
-            },
-            {
-              required: true,
-            },
-          ]}
+          rules={passrules}
           required={false}
           style={styles.formItem}
           styles={FormItemStyles}
-          wrapperStyle={wrapperStyle}
         >
-          <Input placeholder="请输入密码" style={styles.formItemInput} />
+          <Input
+            placeholder="请输入密码"
+            style={styles.formItemInput}
+            onChangeText={(value) => {
+              setShowConfirmPassword(!!value)
+            }}
+          />
         </Form.Item>
 
-        {type === 'create' && (
+        {type === 'create' && showConfirmPassword && (
           <>
             <Form.Item
               label="确认密码"
-              name="email"
+              name="password2"
               validateDebounce={700}
-              // rules={[
-              //   {
-              //     required: true,
-              //   },
-              // ]}
+              rules={[
+                ...passrules,
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve()
+                    }
+                    return Promise.reject(new Error('两次输入的密码不一致'))
+                  },
+                }),
+              ]}
               required={false}
               style={styles.formItem}
               styles={FormItemStyles}
-              wrapperStyle={wrapperStyle}
             >
-              <Input placeholder="请输入邮箱" style={styles.formItemInput} />
+              <Input placeholder="请输入密码" style={styles.formItemInput} />
             </Form.Item>
 
             <Form.Item
@@ -168,11 +252,7 @@ export default function LoginScreen(props: any) {
                   <ThemedText>验证码</ThemedText>
                   <>
                     {isActive === false ? (
-                      <ThemedText
-                        onPress={() => {
-                          start()
-                        }}
-                      >
+                      <ThemedText onPress={handleSendEmailVerification}>
                         获取验证码
                       </ThemedText>
                     ) : (
@@ -181,10 +261,15 @@ export default function LoginScreen(props: any) {
                   </>
                 </ThemedView>
               }
-              name="code"
+              name="verification_code"
               rules={[
                 {
+                  min: 6,
+                  message: '验证码最少6位',
+                },
+                {
                   required: true,
+                  message: '请输入验证码',
                 },
               ]}
               required={false}
@@ -193,7 +278,6 @@ export default function LoginScreen(props: any) {
               labelStyle={{
                 width: '100%',
               }}
-              wrapperStyle={wrapperStyle}
             >
               <Input placeholder="请输入验证码" style={styles.formItemInput} />
             </Form.Item>
@@ -225,11 +309,6 @@ export default function LoginScreen(props: any) {
       </Form>
     </PagesScrollView>
   )
-}
-
-export const wrapperStyle: any = {
-  // minHeight: 93,
-  justifyContent: 'flex-start',
 }
 
 export const FormItemStyles = {

@@ -15,8 +15,22 @@ export const useTopicDetailsTrigger = () => {
 }
 
 // 登录
-export const useTopicLogin = (id?: number | string) => {
+export const useTopicLogin = () => {
   return useTriggerRequest({
     ...apiList.login,
+  })
+}
+
+// 发送邮箱验证码
+export const useSendEmailVerification = () => {
+  return useTriggerRequest({
+    ...apiList.sendEmailVerification,
+  })
+}
+
+// 用户注册
+export const useRegister = () => {
+  return useTriggerRequest({
+    ...apiList.register,
   })
 }

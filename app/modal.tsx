@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Platform } from 'react-native'
 import Animated, { SlideInDown } from 'react-native-reanimated'
 import { StatusBar } from 'expo-status-bar'
 import { Form, Input, Button } from '@ant-design/react-native'
-import { FormItemStyles, styles, wrapperStyle } from '@/app/login'
+import { FormItemStyles, styles } from '@/app/login'
 import { pay } from 'react-native-alipay'
 
 import { Alert } from 'react-native'
@@ -137,7 +137,6 @@ export default function Modal() {
           required={false}
           style={styles.formItem}
           styles={FormItemStyles}
-          wrapperStyle={wrapperStyle}
         >
           <Input placeholder="请输入地址" style={styles.formItemInput} />
         </Form.Item>

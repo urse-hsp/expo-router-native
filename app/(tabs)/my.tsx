@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Image, StyleSheet } from 'react-native'
 import ParallaxScrollView from '@/components/ParallaxScrollView'
 import { ThemedText } from '@/components/ThemedText'
@@ -6,20 +6,23 @@ import { Tabs } from '@ant-design/react-native'
 import { themeColor } from '@/constants/Colors'
 import OrderList from '@/app/my/orderList'
 import NftList from '@/app/my/nftList'
-import { ScrollView, Text, View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { IconSymbol } from '@/components/ui/IconSymbol'
 import { useColorScheme } from '@/hooks/useColorScheme'
 import { Colors } from '@/constants/Colors'
 import { themeType } from '@/constants/config'
 import { useRouter } from 'expo-router'
+import { useInfoAccount } from '@/services/my'
+import { AppContext } from '@/models/app'
 
 const ProfileScreen = ({ navigation }: any) => {
+  const { data } = useInfoAccount()
+  const { appInfo }: any = useContext(AppContext)
+
   const user = {
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    phone: '+123456789',
+    name: appInfo?.nick_name,
+    email: appInfo?.email,
     avatar: 'https://a.520gexing.com/uploads/allimg/2021042109/uqaqhuvavt0.jpg', // 用户头像的URL
-    interests: ['Reading', 'Traveling', 'Photography'], // 用户的兴趣爱好
   }
 
   const tabs = [

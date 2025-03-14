@@ -9,8 +9,10 @@ import {
 } from 'react-native'
 import { useState } from 'react'
 import { useRouter } from 'expo-router'
-import ai_img from '@/assets/images/ai.jpg'
 import { Link } from 'expo-router'
+import { useListGoods } from '@/services/home'
+
+const ai_img = require('@/assets/images/ai.jpg')
 
 const initialData = [
   {
@@ -25,7 +27,7 @@ const initialData = [
     spu_no: '123',
     goods_name: '大菠萝3',
     low_price: '499',
-    image_file: require('@/assets/images/ai.jpg'), // 使用 require 引用本地图片
+    image_file: ai_img, // 使用 require 引用本地图片
   },
 ]
 
@@ -36,6 +38,7 @@ export default function HomeScreen({ navigate }: any) {
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const { data: list } = useListGoods()
 
   const fetchMoreData = async () => {
     if (loading) return

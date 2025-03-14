@@ -28,8 +28,14 @@ export function useGetRequest(options: fetcherDataProps): useGetRequestType {
   // GET 请求示例
   const fetchData = async () => {
     setLoading(true)
+    console.log(options, 'options')
+
     try {
-      const data = await request(options?.url, options?.method)
+      const data = await request(
+        options?.url,
+        options?.method,
+        options?.data || undefined,
+      )
       setLoading(false)
       setData(data)
     } catch (error) {
