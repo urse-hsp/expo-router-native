@@ -12,55 +12,12 @@ import { useRouter } from 'expo-router'
 import { Link } from 'expo-router'
 import { useListGoods } from '@/services/home'
 
-const ai_img = require('@/assets/images/ai.jpg')
-
-const initialData = [
-  {
-    spu_id: 1,
-    spu_no: '234',
-    goods_name: '水果13水果13水果13水果13水果13水果13水果13水果13',
-    low_price: '998.88',
-    image_file: ai_img,
-  },
-  {
-    spu_id: 2,
-    spu_no: '123',
-    goods_name: '大菠萝3',
-    low_price: '499',
-    image_file: ai_img, // 使用 require 引用本地图片
-  },
-]
-
 export const Item = () => {}
 
 export default function HomeScreen({ navigate }: any) {
-  const [data, setData] = useState(initialData)
-  const [page, setPage] = useState(1)
-  const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const { data: list } = useListGoods()
-
-  const fetchMoreData = async () => {
-    if (loading) return
-    setLoading(true)
-
-    // 模拟数据请求
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    const newData: any = [
-      {
-        spu_id: data.length + 1,
-        spu_no: '123',
-        goods_name: '大菠萝3',
-        low_price: '499',
-        image_file: ai_img,
-      },
-    ]
-
-    setData([...data, ...newData])
-    setPage(page + 1)
-    setLoading(false)
-  }
+  const { data: list, loading } = useListGoods()
+  console.log(list, 'res')
 
   const RenderItem = ({ item }: any) => {
     return (
@@ -97,7 +54,7 @@ export default function HomeScreen({ navigate }: any) {
         <ThemedText>Open modal</ThemedText>
       </Link>
       <FlatList
-        data={data}
+        data={list?.data ?? []}
         renderItem={RenderItem}
         keyExtractor={(item) => item.spu_id.toString()}
         // onEndReached={fetchMoreData}

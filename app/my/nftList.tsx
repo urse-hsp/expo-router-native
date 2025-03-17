@@ -8,24 +8,8 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native'
-import ai_img from '@/assets/images/ai.jpg'
-
-const initialData = [
-  {
-    spu_id: 1,
-    spu_no: '234',
-    goods_name: '水果13水果13水果13水果13水果13水果13水果13水果13',
-    low_price: '998.88',
-    image_file: ai_img,
-  },
-  {
-    spu_id: 2,
-    spu_no: '123',
-    goods_name: '大菠萝3',
-    low_price: '499',
-    image_file: require('@/assets/images/ai.jpg'), // 使用 require 引用本地图片
-  },
-]
+import { useListNFT } from '@/services/my'
+import EmptyComponent from '@/components/EmptyComponent'
 
 interface IndexType {
   isVisible?: boolean
@@ -33,10 +17,12 @@ interface IndexType {
 }
 
 const Index: React.FC<IndexType> = (props) => {
+  const { data } = useListNFT()
+
   return (
     <ThemedView>
       <FlatList
-        data={initialData}
+        data={data ?? []}
         numColumns={2} // 设置为2列
         keyExtractor={(item) => item.spu_id.toString()}
         horizontal={false}
@@ -61,6 +47,7 @@ const Index: React.FC<IndexType> = (props) => {
           </TouchableOpacity>
         )}
         columnWrapperStyle={styles.row} // 添加列包装样式
+        ListEmptyComponent={EmptyComponent} // 添加空状态组件
       />
     </ThemedView>
   )

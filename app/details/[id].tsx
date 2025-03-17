@@ -8,24 +8,28 @@ import Card from '@/components/Card'
 import footer_img from '@/assets/images/footer.png'
 import { Button as AntButton } from '@ant-design/react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useInfoGoods } from '@/services/home'
 
-const data = {
-  spu_id: 2,
-  spu_no: '234',
-  goods_name: '水果13水果13水果13水果13水果13水果13水果13水果13',
-  low_price: '998.88',
-  image_file:
-    'https://tse1-mm.cn.bing.net/th/id/OIP-C.jdP04yEoxG10mcywseQj7gAAAA?w=173&h=180&c=7&r=0&o=5&pid=1.7',
-}
+// const data = {
+//   spu_id: 2,
+//   spu_no: '234',
+//   goods_name: '水果13水果13水果13水果13水果13水果13水果13水果13',
+//   low_price: '998.88',
+//   image_file:
+//     'https://tse1-mm.cn.bing.net/th/id/OIP-C.jdP04yEoxG10mcywseQj7gAAAA?w=173&h=180&c=7&r=0&o=5&pid=1.7',
+// }
 export default function DetailsScreen() {
   const { id } = useLocalSearchParams()
+  const { data } = useInfoGoods(Number(id))
   const insets = useSafeAreaInsets()
+
+  console.log(data, 'data')
 
   return (
     <View style={styles.container}>
       <PagesScrollView options={{ headerShown: true, title: '作品详情' }}>
         <ThemedView style={styles.images}>
-          <Image source={{ uri: data.image_file }} style={styles.img} />
+          <Image source={{ uri: data?.image_file }} style={styles.img} />
         </ThemedView>
 
         <Card>

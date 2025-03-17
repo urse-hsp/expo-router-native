@@ -12,8 +12,6 @@ export const setGetPath = (
   // 判断需要拼接参数
   const isQuery =
     options && options.method?.toLowerCase() !== 'post' && options.data
-  console.log(isQuery, 'isQuery', options)
-
   return url + (isQuery ? paramsQueryString(options?.data) : '')
 }
 

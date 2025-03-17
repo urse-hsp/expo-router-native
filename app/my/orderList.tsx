@@ -11,6 +11,8 @@ import {
 } from 'react-native'
 import ai_img from '@/assets/images/ai.jpg'
 import { Button as AntButton } from '@ant-design/react-native'
+import EmptyComponent from '@/components/EmptyComponent'
+import { useListOrder } from '@/services/my'
 
 const initialData = [
   {
@@ -35,12 +37,14 @@ interface IndexType {
 }
 
 const Index: React.FC<IndexType> = (props) => {
+  const { data } = useListOrder()
   return (
     <ThemedView>
       <FlatList
-        data={initialData}
+        data={data ?? []}
         keyExtractor={(item) => item.spu_id.toString()}
         horizontal={false}
+        ListEmptyComponent={EmptyComponent} // 添加空状态组件
         renderItem={({ item }) => (
           <TouchableOpacity
             activeOpacity={0.8}
