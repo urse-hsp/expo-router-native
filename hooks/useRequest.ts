@@ -90,3 +90,68 @@ export function useTriggerRequest(
 
   return { trigger, loading }
 }
+
+// 分页请求
+interface PaginationParams {
+  initialPage?: number
+  pageSize?: number
+  options: fetcherDataProps
+}
+export const usePaginationRequest = ({
+  initialPage = 0,
+  pageSize = 10,
+  options,
+}: PaginationParams) => {
+  const [page, setPage] = useState(initialPage)
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  const request = useFetcher()
+
+  const loadMoreData = async (page_ = page) => {
+    if (loading || !hasMore) return
+    setLoading(true)
+
+    try {
+      const { data: data_, total_count } = await request(
+        options?.url,
+        options?.method,
+        {
+          offset: page_,
+          limit: pageSize,
+        },
+      )
+      setData((prevData) => [...prevData, ...data_?.data])
+      setPage((prevPage) => prevPage + 1)
+
+      // 判断最后一页
+      if (data?.length < pageSize) {
+        setHasMore(false)
+      }
+    } catch (error) {
+      console.error('Failed to load data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const Next = () => {
+    setPage((prevPage) => {
+      const page_ = prevPage + 1
+      loadMoreData(page_)
+      return page_
+    })
+  }
+
+  const reset = () => {
+    setPage(initialPage)
+    setData([])
+    setHasMore(true)
+  }
+
+  useEffect(() => {
+    loadMoreData()
+  }, [initialPage, pageSize])
+
+  return { data, loading, loadMoreData, hasMore, Next, reset }
+}

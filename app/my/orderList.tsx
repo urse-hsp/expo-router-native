@@ -7,29 +7,10 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Button,
 } from 'react-native'
-import ai_img from '@/assets/images/ai.jpg'
 import { Button as AntButton } from '@ant-design/react-native'
 import EmptyComponent from '@/components/EmptyComponent'
 import { useListOrder } from '@/services/my'
-
-const initialData = [
-  {
-    spu_id: 1,
-    spu_no: '234',
-    goods_name: '水果13水果13水果13水果13水果13水果13水果13水果13',
-    low_price: '998.88',
-    image_file: ai_img,
-  },
-  {
-    spu_id: 2,
-    spu_no: '123',
-    goods_name: '大菠萝3',
-    low_price: '499',
-    image_file: require('@/assets/images/ai.jpg'), // 使用 require 引用本地图片
-  },
-]
 
 interface IndexType {
   isVisible?: boolean

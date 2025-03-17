@@ -16,8 +16,7 @@ export const Item = () => {}
 
 export default function HomeScreen({ navigate }: any) {
   const router = useRouter()
-  const { data: list, loading } = useListGoods()
-  console.log(list, 'res')
+  const { data: list, loading, Next } = useListGoods()
 
   const RenderItem = ({ item }: any) => {
     return (
@@ -53,8 +52,11 @@ export default function HomeScreen({ navigate }: any) {
       <Link href="/modal">
         <ThemedText>Open modal</ThemedText>
       </Link>
+      <TouchableOpacity onPress={Next}>
+        <ThemedText>next</ThemedText>
+      </TouchableOpacity>
       <FlatList
-        data={list?.data ?? []}
+        data={list ?? []}
         renderItem={RenderItem}
         keyExtractor={(item) => item.spu_id.toString()}
         // onEndReached={fetchMoreData}

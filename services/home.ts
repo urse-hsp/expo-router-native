@@ -1,11 +1,10 @@
-import { useGetRequest, useTriggerRequest } from '@/hooks/useRequest'
+import { useGetRequest, usePaginationRequest } from '@/hooks/useRequest'
 import apiList from '@/utils/apiList'
 
 // 获取商品列表
 export const useListGoods = (id?: number | string) => {
-  return useGetRequest({
-    ...apiList.listGoods,
-    data: { limit: 100, offset: 0 },
+  return usePaginationRequest({
+    options: apiList.listGoods,
   })
 }
 
