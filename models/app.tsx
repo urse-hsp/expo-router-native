@@ -15,9 +15,10 @@ const AppProvider = ({ children }: any) => {
   const [appInfo, setAppInfo] = useState<dataType<any> | null>(null)
   const router = useRouter()
 
-  const setAppData = (data: dataType<any>) => {
+  const setAppData = (data: dataType<any>, fn?: () => void) => {
     saveData(data, () => {
       setAppInfo(data) // 如果有数据，则更新状态
+      fn?.()
     })
   }
 
@@ -36,11 +37,13 @@ const AppProvider = ({ children }: any) => {
   // 退出
   const exit = () => {
     deleteData(() => {
-      setAppInfo(null)
-      router.replace('/login')
       Toast.show({
-        type: 'success',
-        text1: '退出成功',
+        type: 'error',
+        text1: '请登录',
+        onShow() {
+          setAppInfo(null)
+          router.replace('/login')
+        },
       })
     })
   }

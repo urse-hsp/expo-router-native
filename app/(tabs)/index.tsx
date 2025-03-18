@@ -52,9 +52,6 @@ export default function HomeScreen({ navigate }: any) {
       <Link href="/modal">
         <ThemedText>Open modal</ThemedText>
       </Link>
-      <TouchableOpacity onPress={Next}>
-        <ThemedText>next</ThemedText>
-      </TouchableOpacity>
       <FlatList
         data={list ?? []}
         renderItem={RenderItem}

@@ -62,10 +62,11 @@ export default function LoginScreen(props: any) {
     if (type === 'login') {
       // 登录
       try {
-        const { data } = await logintrigger(values)
-        if (data) {
-          handleBackPress()
-          setAppData(data)
+        const res = await logintrigger(values)
+        if (res?.code === 0) {
+          setAppData(res.data, () => {
+            handleBackPress()
+          })
         }
       } catch (error) {}
     } else {

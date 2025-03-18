@@ -47,7 +47,7 @@ const ProfileScreen = ({ navigation }: any) => {
             <TouchableOpacity onPress={() => router.push('/my/settings')}>
               <IconSymbol
                 size={28}
-                name="dehaze:fill"
+                name="greaterthan.circle.fill"
                 color={Colors[colorScheme ?? themeType].tint}
               />
             </TouchableOpacity>
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginRight: 20,
+    position: 'relative',
   },
   name: {
     fontSize: 24,
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
   header: {
     height: '100%',
     padding: 22,
+    paddingTop: 50,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',

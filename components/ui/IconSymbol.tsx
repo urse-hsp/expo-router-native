@@ -14,7 +14,7 @@ const MAPPING = {
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
   'person.fill': 'person', // 新增图标映射
-  'dehaze:fill': 'dehaze',
+  'greaterthan.circle.fill': 'dehaze',
 } as Partial<
   Record<
     import('expo-symbols').SymbolViewProps['name'],

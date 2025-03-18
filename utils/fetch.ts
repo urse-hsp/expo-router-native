@@ -1,10 +1,10 @@
 import { API_BASE_URL } from '@/constants/config'
-import { Toast } from '@ant-design/react-native'
 import { AppContext } from '@/models/app'
 import { useContext } from 'react'
 import useAuth from '@/hooks/useAuth'
 import { setGetPath } from '@/utils'
 import { methodType } from '@/utils/apiList'
+import Toast from 'react-native-toast-message'
 
 export const useFetcher = () => {
   const { exit }: any = useContext(AppContext)
@@ -31,22 +31,19 @@ export const useFetcher = () => {
         },
         body: body ? JSON.stringify(body) : null,
       })
+
       const result = await response.json()
       if (result?.code === 401) {
-        Toast.show({
-          type: 'error',
-          content: 'token',
-        })
         // 权限过期
         exit()
-        return result
+        return
       }
 
       // 报错
       if (result?.code !== 0) {
         Toast.show({
           type: 'error',
-          content: result?.msg,
+          text1: result?.msg,
         })
         return result
       }

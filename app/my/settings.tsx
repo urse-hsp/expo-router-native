@@ -13,6 +13,7 @@ import { ThemedText } from '@/components/ThemedText'
 import PagesScrollView from '@/components/PagesScrollView'
 import appinfo from '@/app.json'
 import { AppContext } from '@/models/app'
+import { ScreenProps, Stack } from 'expo-router'
 
 const DATA: any = [
   // {
@@ -56,7 +57,11 @@ const Item = ({ data }: { data: ItemProps }) => {
 
 const App = () => {
   return (
-    <PagesScrollView style={styles.container}>
+    <PagesScrollView
+      options={{
+        title: '',
+      }}
+    >
       <FlatList
         data={DATA}
         renderItem={({ item }) => <Item data={item} />}
